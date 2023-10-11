@@ -1,0 +1,117 @@
+﻿@using SystemeLocation.Models.Voiture
+
+@model VoitureDetailsVM
+
+@{
+    ViewData["Title"] = "Car's details";
+}
+
+<h1>Car details</h1>
+
+<div class="mt-2 mb-2">
+    @Html.ActionLink("Back", "Manage", new { succursaleId = @ViewBag.succursaleId }, new { @class = "btn btn-secondary" })
+    @if (ViewBag.succursaleIsActive && ViewBag.voitureIsActive)
+    {
+        @Html.ActionLink("Add Note", "AddNote", new { succursaleId = @ViewBag.succursaleId, voitureId = @ViewBag.voitureId }, new { @class = "btn btn-primary" })
+    }
+</div>
+
+<h3>Specifications:</h3>
+
+<table class="table mb-2" style="font-size: 20px">
+    <tbody>
+        <tr>
+            <td style="font-weight: bold">@Html.DisplayNameFor(model => model.Id):</td>
+            <td>@Html.DisplayFor(modelItem => modelItem.Id)</td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold">@Html.DisplayNameFor(model => model.Name):</td>
+            <td>@Html.DisplayFor(modelItem => modelItem.Name)</td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold">@Html.DisplayNameFor(model => model.SuccursaleName):</td>
+            <td>@Html.DisplayFor(modelItem => modelItem.SuccursaleName)</td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold">@Html.DisplayNameFor(model => model.Status):</td>
+            <td>@Html.DisplayFor(modelItem => modelItem.Status)</td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold">@Html.DisplayNameFor(model => model.Available):</td>
+            <td>@Html.DisplayFor(modelItem => modelItem.Available)</td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold">@Html.DisplayNameFor(model => model.State):</td>
+            <td>@Html.DisplayFor(modelItem => modelItem.State)</td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold">@Html.DisplayNameFor(model => model.SerialNumber):</td>
+            <td>@Html.DisplayFor(modelItem => modelItem.SerialNumber)</td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold">@Html.DisplayNameFor(model => model.RegistrationNumber):</td>
+            <td>@Html.DisplayFor(modelItem => modelItem.RegistrationNumber)</td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold">@Html.DisplayNameFor(model => model.Brand):</td>
+            <td>@Html.DisplayFor(modelItem => modelItem.Brand)</td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold">@Html.DisplayNameFor(model => model.Model):</td>
+            <td>@Html.DisplayFor(modelItem => modelItem.Model)</td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold">@Html.DisplayNameFor(model => model.Year):</td>
+            <td>@Html.DisplayFor(modelItem => modelItem.Year)</td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold">@Html.DisplayNameFor(model => model.Color):</td>
+            <td>@Html.DisplayFor(modelItem => modelItem.Color)</td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold">@Html.DisplayNameFor(model => model.Mileage):</td>
+            <td>@Html.DisplayFor(modelItem => modelItem.Mileage)</td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold">@Html.DisplayNameFor(model => model.EstimatePrice):</td>
+            <td>@Html.DisplayFor(modelItem => modelItem.EstimatePrice)</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3 class="mt-5">Associated locations:</h3>
+
+<table class="table mb-2" style="font-size: 20px">
+    <thead>
+        <tr>
+            <th>Status</th>
+            <th>Opening Time</th>
+            <th>Planned Closing Time</th>
+            <th>Closing Time</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var location in Model.AssociatedLocations)
+        {
+            <tr>
+                <td>@location.Status</td>
+                <td>@location.OpeningTime</td>
+                <td>@location.PlannedClosingTime</td>
+                <td>@location.ClosingTime</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h3 class="mt-5">Notes:</h3>
+
+<table class="table mb-2" style="font-size: 20px">
+    <tbody>
+        @foreach (var note in Model.Notes)
+        {
+            <tr>
+                <td>@note.Description</td>
+            </tr>
+        }
+    </tbody>
+</table>

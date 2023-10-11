@@ -1,0 +1,106 @@
+﻿@using SystemeLocation.Models.Succursale
+@using SystemeLocation.Entities;
+
+@model IEnumerable<SuccursaleManageVM>
+
+@{
+    ViewData["Title"] = "Manage Branches";
+}
+
+<h1>Branches list</h1>
+
+<div class="mt-2 mb-2">
+    @if (User.IsInRole("Administrateur"))
+    {
+        @Html.ActionLink("Create", "Create", new { }, new { @class = "btn btn-primary" })
+    }
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CarCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ActiveCars)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AvailableCars)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CarCount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ActiveCars)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AvailableCars)
+                </td>
+                <td>
+                    @Html.ActionLink("Cars", "Manage", "Voiture", new { succursaleId = item.Id }, new { @class ="btn btn-primary" })
+                    @Html.ActionLink("Rentals", "Manage", "Location", new { succursaleId = item.Id }, new { @class ="btn btn-primary" })
+                    @if (User.IsInRole("Administrateur"))
+                    {
+                        @if (item.Status == StatutSuccursale.Activé)
+                        {
+                            @Html.ActionLink("Deactivate", "Edit", new { id = item.Id }, new { @class ="btn btn-danger status-button" })
+                        }
+                        else if (item.Status == StatutSuccursale.Désactivé)
+                        {
+                            @Html.ActionLink("Activate", "Edit", new { id = item.Id }, new { @class ="btn btn-secondary status-button" })
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class ="btn btn-danger delete-button ms-1", data_name = item.Name })
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        $(function () {
+            $('.status-button').click(function (event) {
+                const name = $(this).data('name') || "this item";
+                const message = `Are you sure you want to change ${name}'s status?`;
+
+                if (!confirm(message)) {
+                    event.stopPropagation();
+                    return false;
+                }
+            });
+        });
+
+        $(function () {
+            $('.delete-button').click(function (event) {
+                const name = $(this).data('name') || "this item";
+                const message = `Are you sure you want to delete ${name}? \r\n\n**ALL DATA RELATED (CARS, DRIVERS, RENTALS & NOTES) WILL BE DEFINITIVELY DELETED!**`;
+
+                if (!confirm(message)) {
+                    event.stopPropagation();
+                    return false;
+                }
+            });
+        });
+    </script>
+}

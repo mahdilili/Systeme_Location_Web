@@ -1,0 +1,52 @@
+﻿@using SystemeLocation.Models.Utilisateur
+@using Microsoft.AspNetCore.Identity;
+
+@model UtilisateurCreateVM
+@inject RoleManager<IdentityRole<Guid>> _roleManager
+
+@{
+    ViewData["Title"] = "Create User";
+}
+
+<h1>Create a new User</h1>
+
+<div class="mt-2 mb-2">
+    @Html.ActionLink("Back", "Manage", new { }, new { @class = "btn btn-secondary" })
+</div>
+
+<form asp-action="Create">
+    <div class="row">
+        <div class="col-md-4">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group mb-2">
+                <label asp-for="UserName" class="control-label required"></label>
+                <input asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="RoleId" class="control-label required"></label>
+                <select asp-for="RoleId" asp-items="@(new SelectList(_roleManager.Roles, "Id", "Name"))" class="form-control"></select>
+                <span asp-validation-for="RoleId"></span>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="Password" class="control-label required"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="PasswordConfirmation" class="control-label required"></label>
+                <input asp-for="PasswordConfirmation" class="form-control" />
+                <span asp-validation-for="PasswordConfirmation" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group mt-2 mb-2">
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

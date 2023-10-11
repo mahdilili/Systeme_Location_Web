@@ -1,0 +1,155 @@
+﻿@using SystemeLocation.Models.Location
+@using SystemeLocation.Entities;
+
+@model LocationCreateVM
+
+@{
+    ViewData["Title"] = "Create a Rental";
+}
+
+<h1>Create a new Rental</h1>
+
+<div class="mt-2 mb-2">
+    @Html.ActionLink("Back", "Manage", new { succursaleId = @ViewBag.succursaleId }, new { @class = "btn btn-secondary" })
+</div>
+
+<form asp-action="Create" asp-route-succursaleId="@ViewBag.succursaleId">
+    <h4 class="mt-2">Rental information</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="OpeningTime" class="control-label required"></label>
+                <input asp-for="OpeningTime" class="form-control" />
+                <span asp-validation-for="OpeningTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PlannedClosingTime" class="control-label required"></label>
+                <input asp-for="PlannedClosingTime" class="form-control" />
+                <span asp-validation-for="PlannedClosingTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VoitureName" class="control-label required"></label>
+                @Html.DropDownList("VoitureName", (SelectList)ViewBag.CarNames, "Select a Car", new { @class = "form-control required" })
+                <span asp-validation-for="VoitureName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Note" class="control-label"></label>
+                <input asp-for="Note" class="form-control" />
+                <span asp-validation-for="Note" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    
+    <h4 class="mt-2">Driver's information</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="form-check-label form-check m-2">
+                    <input id="existingDriverCheckbox" class="form-check-input" asp-for="IsExistingDriver" />
+                    @Html.DisplayNameFor(model => model.IsExistingDriver)
+                </label>
+                <span asp-validation-for="IsExistingDriver" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Driver_FirstName" class="control-label required new-driver-field"></label>
+                <input asp-for="Driver_FirstName" class="form-control new-driver-field" />
+                <span asp-validation-for="Driver_FirstName" class="text-danger new-driver-field"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Driver_Name" class="control-label required new-driver-field"></label>
+                <input asp-for="Driver_Name" class="form-control new-driver-field" />
+                <span asp-validation-for="Driver_Name" class="text-danger new-driver-field"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Driver_Phone" class="control-label required new-driver-field"></label>
+                <input asp-for="Driver_Phone" class="form-control new-driver-field" />
+                <span asp-validation-for="Driver_Phone" class="text-danger new-driver-field"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Driver_Email" class="control-label required new-driver-field"></label>
+                <input asp-for="Driver_Email" class="form-control new-driver-field" />
+                <span asp-validation-for="Driver_Email" class="text-danger new-driver-field"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Driver_DriverLicense" class="control-label required"></label>
+                <input asp-for="Driver_DriverLicense" class="form-control" />
+                <span asp-validation-for="Driver_DriverLicense" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="form-check-label form-check m-2 required">
+                    <input class="form-check-input" asp-for="IsIndentified" /> @Html.DisplayNameFor(model => model.IsIndentified)
+                </label>
+                <span asp-validation-for="IsIndentified" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+
+    <h4 class="mt-2 new-driver-field">Address Information</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="Address_CivicNumber" class="control-label required new-driver-field"></label>
+                <input asp-for="Address_CivicNumber" class="form-control new-driver-field" />
+                <span asp-validation-for="Address_CivicNumber" class="text-danger new-driver-field"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address_Street" class="control-label required new-driver-field"></label>
+                <input asp-for="Address_Street" class="form-control new-driver-field" />
+                <span asp-validation-for="Address_Street" class="text-danger new-driver-field"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address_City" class="control-label required new-driver-field"></label>
+                <input asp-for="Address_City" class="form-control new-driver-field" />
+                <span asp-validation-for="Address_City" class="text-danger new-driver-field"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address_PostalCode" class="control-label required new-driver-field"></label>
+                <input asp-for="Address_PostalCode" class="form-control new-driver-field" />
+                <span asp-validation-for="Address_PostalCode" class="text-danger new-driver-field"></span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group mt-2 mb-2">
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            function toggleAddressFields() {
+                const addressFields = $(".new-driver-field");
+                const existingDriverCheckbox = $('#existingDriverCheckbox');
+                if (existingDriverCheckbox.prop('checked')) {
+                    addressFields.hide();
+                } else {
+                    addressFields.show();
+                }
+            }
+
+            toggleAddressFields();
+
+            $('#existingDriverCheckbox').change(function () {
+                toggleAddressFields();
+            });
+        });
+
+        /*$('#existingDriverCheckbox').change(function () {
+            const addressFields = $(".new-driver-field");
+
+            if ($(this).prop("checked")) {
+                addressFields.hide();
+            } else {
+                addressFields.show();
+            }
+        });*/
+    </script>
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

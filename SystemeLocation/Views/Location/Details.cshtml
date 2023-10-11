@@ -1,0 +1,105 @@
+﻿@using SystemeLocation.Models.Location
+@using SystemeLocation.Entities;
+
+@model LocationDetailsVM
+
+@{
+    ViewData["Title"] = "Rental's details";
+}
+
+<h1>Rental's details</h1>
+
+<div class="mt-2 mb-2">
+    @Html.ActionLink("Back", "Manage", new { succursaleId = @ViewBag.succursaleId }, new { @class = "btn btn-secondary" })
+    @if (ViewBag.succursaleIsActive && ViewBag.locationIsOpen)
+    {
+        @Html.ActionLink("Add Note", "AddNote", new { succursaleId = @ViewBag.succursaleId, locationId = @ViewBag.locationId }, new { @class = "btn btn-primary" })
+    }
+</div>
+
+<h3>Specifications:</h3>
+<table class="table mb-2" style="font-size: 20px">
+    <tbody>
+        <tr>
+            <td style="font-weight: bold">@Html.DisplayNameFor(model => model.Id):</td>
+            <td>@Html.DisplayFor(modelItem => modelItem.Id)</td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold">@Html.DisplayNameFor(model => model.Status):</td>
+            <td>@Html.DisplayFor(modelItem => modelItem.Status)</td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold">@Html.DisplayNameFor(model => model.OpeningTime):</td>
+            <td>@Html.DisplayFor(modelItem => modelItem.OpeningTime)</td>
+        </tr>
+        @if (Model.Status == StatutLocation.Ouvert)
+        {
+            <tr>
+                <td style="font-weight: bold">@Html.DisplayNameFor(model => model.PlannedClosingTime):</td>
+                <td>@Html.DisplayFor(modelItem => modelItem.PlannedClosingTime)</td>
+            </tr>
+        }
+        else
+        {
+            <tr>
+                <td style="font-weight: bold">@Html.DisplayNameFor(model => model.ClosingTime):</td>
+                <td>@Html.DisplayFor(modelItem => modelItem.ClosingTime)</td>
+            </tr>
+        }
+        <tr>
+            <td style="font-weight: bold">@Html.DisplayNameFor(model => model.VoitureName):</td>
+            <td>@Html.DisplayFor(modelItem => modelItem.VoitureName)</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3 class="mt-5">Driver's information:</h3>
+<table class="table mb-2" style="font-size: 20px">
+    <tbody>
+        <tr>
+            <td style="font-weight: bold">@Html.DisplayNameFor(model => model.Driver_Name):</td>
+            <td>@Html.DisplayFor(modelItem => modelItem.Driver_Name)</td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold">@Html.DisplayNameFor(model => model.Driver_Phone):</td>
+            <td>@Html.DisplayFor(modelItem => modelItem.Driver_Phone)</td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold">@Html.DisplayNameFor(model => model.Driver_Email):</td>
+            <td>@Html.DisplayFor(modelItem => modelItem.Driver_Email)</td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold">@Html.DisplayNameFor(model => model.Driver_DriverLicense):</td>
+            <td>@Html.DisplayFor(modelItem => modelItem.Driver_DriverLicense)</td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold">@Html.DisplayNameFor(model => model.Address_CivicNumber):</td>
+            <td>@Html.DisplayFor(modelItem => modelItem.Address_CivicNumber)</td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold">@Html.DisplayNameFor(model => model.Address_Street):</td>
+            <td>@Html.DisplayFor(modelItem => modelItem.Address_Street)</td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold">@Html.DisplayNameFor(model => model.Address_City):</td>
+            <td>@Html.DisplayFor(modelItem => modelItem.Address_City)</td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold">@Html.DisplayNameFor(model => model.Address_PostalCode):</td>
+            <td>@Html.DisplayFor(modelItem => modelItem.Address_PostalCode)</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3 class="mt-5">Notes:</h3>
+
+<table class="table mb-2" style="font-size: 20px">
+    <tbody>
+        @foreach (var note in Model.Notes)
+        {
+            <tr>
+                <td>@note.Description</td>
+            </tr>
+        }
+    </tbody>
+</table>

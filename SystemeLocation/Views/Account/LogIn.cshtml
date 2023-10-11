@@ -1,0 +1,42 @@
+﻿@using SystemeLocation.Models.Account
+
+@model LogInVM
+
+@{
+    ViewData["Title"] = "LogIn";
+}
+
+<h1>Log In</h1>
+
+<form asp-action="LogIn" asp-route-returnUrl="@ViewBag.ReturnUrl">
+    <div class="row">
+        <div class="col-md-4">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserName" class="control-label"></label>
+                <input asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="form-check-label form-check m-2">
+                    <input class="form-check-input" asp-for="RememberMe" /> @Html.DisplayNameFor(model => model.RememberMe)
+                </label>
+                <span asp-validation-for="RememberMe" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-2 mb-2">
+                <input type="submit" value="LogIn" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,117 @@
+﻿@using SystemeLocation.Models.Voiture
+@using SystemeLocation.Entities;
+
+@model IEnumerable<VoitureManageVM>
+
+@{
+    ViewData["Title"] = "Manage Branch's Cars";
+}
+
+<h1>Cars list</h1>
+
+<div class="mt-2 mb-2">
+    @Html.ActionLink("Back", "Manage", "Succursale", new { }, new { @class = "btn btn-secondary" })
+    @if (@ViewBag.succursaleIsActive && (User.IsInRole("Administrateur") || User.IsInRole("Gérant")))
+    {
+        @Html.ActionLink("Create", "Create", new { succursaleId = @ViewBag.succursaleId }, new { @class = "btn btn-primary" })
+    }
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RegistrationNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Brand)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Model)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Year)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Color)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RegistrationNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Brand)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Model)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Year)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Color)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { voitureId = item.Id, succursaleId = @ViewBag.succursaleId }, new { @class = "btn btn-primary" })
+                    @if (item.Status == StatutVoiture.Activé)
+                    {
+                        @Html.ActionLink("Deactivate", "Edit", new { voitureId = item.Id, succursaleId = @ViewBag.succursaleId }, new { @class ="btn btn-danger status-button" })
+                    }
+                    else if (item.Status == StatutVoiture.Désactivé && (User.IsInRole("Administrateur") || User.IsInRole("Gérant")))
+                    {
+                        @Html.ActionLink("Activate", "Edit", new { voitureId = item.Id, succursaleId = @ViewBag.succursaleId }, new { @class ="btn btn-secondary status-button" })
+                        @Html.ActionLink("Archive", "Archive", new { voitureId = item.Id, succursaleId = @ViewBag.succursaleId }, new { @class ="btn btn-danger delete-button ms-1", data_name = item.Name })
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        $(function () {
+            $('.delete-button').click(function (event) {
+                const name = $(this).data('name') || "this item";
+                const message = `Are you sure you want to archive ${name}?`;
+
+                if (!confirm(message)) {
+                    event.stopPropagation();
+                    return false;
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $(function () {
+            $('.status-button').click(function (event) {
+                const name = $(this).data('name') || "this item";
+                const message = `Are you sure you want to change ${name}'s status?`;
+
+                if (!confirm(message)) {
+                    event.stopPropagation();
+                    return false;
+                }
+            });
+        });
+    </script>
+}

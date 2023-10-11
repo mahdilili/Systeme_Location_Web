@@ -1,0 +1,64 @@
+﻿@using SystemeLocation.Models.Succursale
+
+@model SuccursaleCreateVM
+
+@{
+    ViewData["Title"] = "Create Branch";
+}
+
+<h1>Create a new Branch</h1>
+
+<div class="mt-2 mb-2">
+    @Html.ActionLink("Back", "Manage", new { }, new { @class = "btn btn-secondary" })
+</div>
+
+<form asp-action="Create">
+    <h4 class="mt-2">Branch information</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label required"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+
+    <h4 class="mt-2">Default Address Information</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="Address_CivicNumber" class="control-label"></label>
+                <input asp-for="Address_CivicNumber" class="form-control" />
+                <span asp-validation-for="Address_CivicNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address_Street" class="control-label"></label>
+                <input asp-for="Address_Street" class="form-control" />
+                <span asp-validation-for="Address_Street" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address_City" class="control-label"></label>
+                <input asp-for="Address_City" class="form-control" />
+                <span asp-validation-for="Address_City" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address_PostalCode" class="control-label"></label>
+                <input asp-for="Address_PostalCode" class="form-control" />
+                <span asp-validation-for="Address_PostalCode" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-2 mb-2">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

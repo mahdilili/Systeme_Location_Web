@@ -1,0 +1,68 @@
+﻿@using SystemeLocation.Models.Conducteur
+
+@model ConducteurDetailsVM
+
+@{
+    ViewData["Title"] = "Driver's details";
+}
+
+<h1>Driver's details</h1>
+
+<div class="mt-2 mb-2">
+    @Html.ActionLink("Back", "Manage", new { }, new { @class = "btn btn-secondary" })
+</div>
+
+<h3>Information:</h3>
+
+<table class="table mb-2" style="font-size: 20px">
+    <tbody>
+        <tr>
+            <td style="font-weight: bold">@Html.DisplayNameFor(model => model.Id):</td>
+            <td>@Html.DisplayFor(modelItem => modelItem.Id)</td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold">@Html.DisplayNameFor(model => model.FirstName):</td>
+            <td>@Html.DisplayFor(modelItem => modelItem.FirstName)</td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold">@Html.DisplayNameFor(model => model.LastName):</td>
+            <td>@Html.DisplayFor(modelItem => modelItem.LastName)</td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold">@Html.DisplayNameFor(model => model.DriverLicense):</td>
+            <td>@Html.DisplayFor(modelItem => modelItem.DriverLicense)</td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold">@Html.DisplayNameFor(model => model.EmailAddress):</td>
+            <td>@Html.DisplayFor(modelItem => modelItem.EmailAddress)</td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold">@Html.DisplayNameFor(model => model.PhoneNumber):</td>
+            <td>@Html.DisplayFor(modelItem => modelItem.PhoneNumber)</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3 class="mt-5">Associated locations:</h3>
+
+<table class="table mb-2" style="font-size: 20px">
+    <thead>
+        <tr>
+            <th>Status</th>
+            <th>Opening Time</th>
+            <th>Planned Closing Time</th>
+            <th>Closing Time</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var location in Model.Locations)
+        {
+            <tr>
+                <td>@location.Status</td>
+                <td>@location.OpeningTime</td>
+                <td>@location.PlannedClosingTime</td>
+                <td>@location.ClosingTime</td>
+            </tr>
+        }
+    </tbody>
+</table>
